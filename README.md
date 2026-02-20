@@ -1,33 +1,38 @@
 # 💬 ChatVibe 
 
-**The Ultimate Privacy-First WhatsApp Analyzer** *Uncover the hidden dynamics of your chats with local-first processing and Google's Gemini AI.*
+**The Ultimate Privacy-First WhatsApp Analyzer**
+[🚀 Live Demo](https://chat-vibe-psi.vercel.app) 
 
-![ChatVibe UI Preview](https://via.placeholder.com/800x400?text=Insert+Screenshot+Here)
+---
 
 ## 🚀 Overview
-ChatVibe is a blazing-fast, strictly local web application that parses exported WhatsApp chat logs to visualize messaging habits, response times, and relationship dynamics. Using Web Workers to keep the main thread unblocked, it handles massive chat histories instantly. 
+**ChatVibe** is a high-performance web application designed to uncover the hidden dynamics of your WhatsApp conversations. Built with a "Privacy-First" philosophy, it parses exported chat logs locally in your browser to visualize messaging habits, response times, and relationship shifts over time.
 
-For the final touch, it integrates **Google's Gemini 2.5 Flash** to provide a hilarious, scarily accurate "Vibe Check" based on a random sample of the chat—all while keeping your data private.
+As an **AI Product Manager** portfolio piece, this project demonstrates a seamless integration of complex data processing with cutting-edge Generative AI. It leverages **Google Gemini 2.5 Flash** to provide witty, nuanced psychological roasts based on your chat history—without ever compromising your data privacy.
 
 ## ✨ Key Features
-- **Privacy-First Parsing:** All Regex parsing happens locally in your browser via Web Workers. No raw chat logs are ever saved to a server.
-- **Deep Analytics:** Tracks message volume, double texts (the "Simp Metric"), and visualizes activity over time.
-- **AI Vibe Check:** Leverages `gemini-2.5-flash` for nuanced psychological roasts and dynamic analysis.
-- **"Chat Wrapped" Export:** Generates a beautiful, Instagram-ready gradient card summarizing your chat statistics.
-- **Glassmorphism UI:** Built with Next.js, Tailwind CSS, and Framer Motion for a premium, buttery-smooth experience.
+- **Privacy-First Parsing:** All Regex parsing happens locally via **Web Workers**. No raw chat logs are ever uploaded, saved, or stored on a server.
+- **Deep Analytics:** Track message volume, activity timelines, and "Simp Metrics" (double-text counts and response lag).
+- **AI Vibe Check:** Uses `gemini-2.5-flash` for high-speed, nuanced analysis of relationship tension and interest skew.
+- **"Chat Wrapped" Export:** Generate a premium, Instagram-ready gradient card summarizing your statistics to share on social media.
+- **Glassmorphism UI:** A buttery-smooth, OLED-black aesthetic built with **Next.js 14**, **Tailwind CSS**, and **Framer Motion**.
 
 ## 🛠️ Tech Stack
 - **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
+- **AI Model:** Google Gemini 2.5 Flash (via Vercel AI SDK)
+- **Performance:** Native Web Workers (`parser.worker.ts`) for off-thread processing.
+- **Data Vis:** Recharts (Customized with deep-green gradients)
 - **Styling:** Tailwind CSS + Shadcn/UI
 - **Animations:** Framer Motion
-- **Data Vis:** Recharts
-- **AI Integration:** Vercel AI SDK + Google Generative AI
-- **Performance:** Native Web Workers (`parser.worker.ts`)
+
+## 🧠 Technical Deep Dive: Why Web Workers?
+Parsing a `.txt` file with 50,000+ lines using complex Regex can freeze the browser's main thread, leading to a "janky" user experience. 
+- **The Solution:** ChatVibe offloads the entire parsing engine to a background **Web Worker**.
+- **The Result:** The UI remains responsive at 60fps even while the engine is crunching through years of chat history.
 
 ## 💻 Local Setup
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/Swapnil-bo/chat-vibe.git](https://github.com/Swapnil-bo/chat-vibe.git)
-   cd chat-vibe
+   git clone [https://github.com/Swapnil-bo/Chat-Vibe.git](https://github.com/Swapnil-bo/Chat-Vibe.git)
+   cd Chat-Vibe
