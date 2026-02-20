@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💬 ChatVibe 
 
-## Getting Started
+**The Ultimate Privacy-First WhatsApp Analyzer** *Uncover the hidden dynamics of your chats with local-first processing and Google's Gemini AI.*
 
-First, run the development server:
+![ChatVibe UI Preview](https://via.placeholder.com/800x400?text=Insert+Screenshot+Here)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Overview
+ChatVibe is a blazing-fast, strictly local web application that parses exported WhatsApp chat logs to visualize messaging habits, response times, and relationship dynamics. Using Web Workers to keep the main thread unblocked, it handles massive chat histories instantly. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For the final touch, it integrates **Google's Gemini 2.5 Flash** to provide a hilarious, scarily accurate "Vibe Check" based on a random sample of the chat—all while keeping your data private.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Key Features
+- **Privacy-First Parsing:** All Regex parsing happens locally in your browser via Web Workers. No raw chat logs are ever saved to a server.
+- **Deep Analytics:** Tracks message volume, double texts (the "Simp Metric"), and visualizes activity over time.
+- **AI Vibe Check:** Leverages `gemini-2.5-flash` for nuanced psychological roasts and dynamic analysis.
+- **"Chat Wrapped" Export:** Generates a beautiful, Instagram-ready gradient card summarizing your chat statistics.
+- **Glassmorphism UI:** Built with Next.js, Tailwind CSS, and Framer Motion for a premium, buttery-smooth experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Shadcn/UI
+- **Animations:** Framer Motion
+- **Data Vis:** Recharts
+- **AI Integration:** Vercel AI SDK + Google Generative AI
+- **Performance:** Native Web Workers (`parser.worker.ts`)
 
-## Learn More
+## 💻 Local Setup
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Swapnil-bo/chat-vibe.git](https://github.com/Swapnil-bo/chat-vibe.git)
+   cd chat-vibe
