@@ -1,3 +1,5 @@
+// src/workers/parser.worker.ts
+
 /* Web Worker for parsing WhatsApp chat logs.
    Offloads the heavy regex processing from the main thread.
 */
@@ -17,69 +19,58 @@ export interface ChatMessage {
 }
 
 function parseWhatsAppChat(text: string): ChatMessage[] {
-    const lines = text.split('\n');
+    // 1. Scrub invisible Unicode 'L-R marks'
+    const cleanText = text.replace(/[\u200E\u200F\u202A-\u202E]/g, '');
+    const lines = cleanText.split('\n');
     const messages: ChatMessage[] = [];
 
-    // iOS format:
-    // [15/08/23, 10:45:12 PM] Author: Message
-    const iosRegex =
-        /^\[(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}:\d{2}\s[AP]M)\]\s(.*?):\s(.*)/;
-
-    // Android format (12h or 24h):
-    // 15/08/23, 10:45 PM - Author: Message
-    // 15/08/23, 23:07 - Author: Message
-    const androidRegex =
-        /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})(?:\s[AP]M)?\s-\s(.*?):\s(.*)/;
+    // 2. Updated Regex: More flexible with separators, seconds, and AM/PM casing
+    const iosRegex = /^\[(\d{1,2}[./-]\d{1,2}[./-]\d{2,4}),?\s(\d{1,2}:\d{2}(?::\d{2})?(?:\s?[aApP]\.?[mM]\.?)?)\]\s(.*?):\s(.*)/;
+    const androidRegex = /^(\d{1,2}[./-]\d{1,2}[./-]\d{2,4}),?\s(\d{1,2}:\d{2}(?::\d{2})?(?:\s?[aApP]\.?[mM]\.?)?)\s-\s(.*?):\s(.*)/;
 
     let currentMessage: ChatMessage | null = null;
 
     for (const line of lines) {
+        if (!line.trim()) continue;
+
         const match = line.match(iosRegex) || line.match(androidRegex);
 
         if (match) {
-            // Push previous message
-            if (currentMessage) {
-                messages.push(currentMessage);
-            }
+            if (currentMessage) messages.push(currentMessage);
 
             const dateStr = match[1];
             const timeStr = match[2];
             const author = match[3];
             const content = match[4];
 
-            // ---- Safe date parsing ----
-            const [day, month, yearRaw] = dateStr.split('/');
-            const year = yearRaw.length === 2 ? `20${yearRaw}` : yearRaw;
+            // 3. Initialize variables explicitly as strings to make TypeScript happy
+            const dateParts = dateStr.split(/[./-]/);
+            let day = "01", month = "01", year = "2000";
 
-            const [hourStr, minuteStr] = timeStr.split(':');
-            const hour = parseInt(hourStr, 10);
-            const minute = parseInt(minuteStr, 10);
+            if (dateParts.length >= 3) {
+                if (dateParts[0].length === 4) {
+                    year = dateParts[0]; month = dateParts[1]; day = dateParts[2];
+                } else if (parseInt(dateParts[0]) > 12) {
+                    day = dateParts[0]; month = dateParts[1]; year = dateParts[2];
+                } else {
+                    month = dateParts[0]; day = dateParts[1]; year = dateParts[2];
+                }
+            }
 
-            const dateTime = new Date(
-                Number(year),
-                Number(month) - 1,
-                Number(day),
-                hour,
-                minute
-            );
+            const fullYear = year.length === 2 ? `20${year}` : year;
+            const parsedDate = new Date(`${fullYear}-${month}-${day} ${timeStr.replace(/\./g, '')}`);
 
             currentMessage = {
-                date: dateTime,
-                author,
-                message: content,
+                date: isNaN(parsedDate.getTime()) ? new Date() : parsedDate,
+                author: author.trim(),
+                message: content.trim(),
             };
-        } else {
-            // Continuation of previous message
-            if (currentMessage) {
-                currentMessage.message += `\n${line}`;
-            }
+        } else if (currentMessage) {
+            // Fixed: Using backticks (`) instead of single quotes (')
+            currentMessage.message += `\n${line.trim()}`;
         }
     }
 
-    // Push last message
-    if (currentMessage) {
-        messages.push(currentMessage);
-    }
-
+    if (currentMessage) messages.push(currentMessage);
     return messages;
 }
