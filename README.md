@@ -36,3 +36,7 @@ Parsing a `.txt` file with 50,000+ lines using complex Regex can freeze the brow
    ```bash
    git clone [https://github.com/Swapnil-bo/Chat-Vibe.git](https://github.com/Swapnil-bo/Chat-Vibe.git)
    cd Chat-Vibe
+
+---
+
+*Created by [Swapnil](https://github.com/Swapnil-bo)*
